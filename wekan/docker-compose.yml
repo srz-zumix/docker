@@ -1,0 +1,21 @@
+version: '2'
+services:
+
+  wekan:
+    image: mquandalle/wekan
+    restart: always
+    links:
+      - wekandb
+    environment:
+      - MONGO_URL=mongodb://wekandb/wekan
+      - ROOT_URL=http://localhost:8081
+    ports:
+      - 8081:80
+
+  wekandb:
+    # https://github.com/wekan/wekan/issues/763
+    image: mongo:3.2.11
+    volumes:
+      - /mnt/sda1/docker/wekan/data:/data/db
+      - /mnt/sda1/docker/wekan/configdb:/data/configdb
+    restart: always
