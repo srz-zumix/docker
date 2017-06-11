@@ -38,8 +38,8 @@ RUN npm install --save hubot-alias
 RUN rm -rf hubot-scripts.json
 COPY external-scripts.json external-scripts.json
 
-#RUN rm -rf scripts
-COPY scripts scripts
+RUN rm -rf scripts
+#COPY scripts scripts
 COPY tools/start-forever.sh start-forever.sh
 COPY tools/stop-forever.sh stop-forever.sh
 COPY tools/start.sh start.sh

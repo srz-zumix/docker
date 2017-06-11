@@ -9,17 +9,18 @@ services:
         BOTNAME: <botname>
         DESC: <description>
         ADAPTER: <adapter>
-     environment:
-#        HUBOT_IRC_SERVER: <server>
-#        HUBOT_IRC_PORT: <port>
-#        HUBOT_IRC_ROOMS: <rooms>
-#        HUBOT_IRC_UNFLOOD: true
-#        HUBOT_SLACK_TOKEN: <token>
-#        HUBOT_LOG_LEVEL: debug
-#        HTTP_PROXY: http://proxy.example.com
-#        HTTPS_PROXY: http://proxy.example.com
-#    volumes:
-#      - ./scripts:/home/bot/scripts
+#    environment:
+#      HUBOT_IRC_SERVER: <server>
+#      HUBOT_IRC_PORT: <port>
+#      HUBOT_IRC_ROOMS: "<rooms>"
+#      HUBOT_IRC_UNFLOOD: "true"
+#      HUBOT_LOG_LEVEL: debug
+#      HUBOT_SLACK_TOKEN: <token>
+#      HUBOT_LOG_LEVEL: debug
+#      HTTP_PROXY: http://proxy.example.com
+#      HTTPS_PROXY: http://proxy.example.com
+    volumes:
+      - ./scripts:/home/bot/scripts
     restart: always
     command: ./start-forever.sh
     tty: true

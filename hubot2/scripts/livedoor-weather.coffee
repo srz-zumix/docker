@@ -12,10 +12,9 @@
 
 cron = require('cron').CronJob
 
+rooms = process.env.HUBOT_IRC_ROOMS
 if process.env.WEATHER_CRON_ROOMS
   rooms = process.env.WEATHER_CRON_ROOMS
-if not rooms && process.env.HUBOT_IRC_ROOMS
-  rooms = process.env.HUBOT_IRC_ROOMS
 
 # 平日18時にお知らせします
 tenki_cron_schedule = '0 0 18 * * 1-5'

@@ -2,13 +2,13 @@ hubot docker
 
 # Configuration
 
+1. cp docker-compose.yml.sample docker-compose.yml
 1. docker-compose.yml
-    ```
-      OWNER: ${USERNAME}
-      BOTNAME: <botname>
-      DESC: <description>
-      ADAPTER: <adapter>
-    ```
-1. config.sh
-    1. copy config.sh.sample -> config.sh
-    1. set environments
+    1. hubot setting
+        ```
+          OWNER: ${USERNAME}
+          BOTNAME: <botname>
+          DESC: <description>
+          ADAPTER: <adapter>
+        ```
+    1. set environment
