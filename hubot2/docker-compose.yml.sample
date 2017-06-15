@@ -17,8 +17,14 @@ services:
 #      HUBOT_LOG_LEVEL: debug
 #      HUBOT_SLACK_TOKEN: <token>
 #      HUBOT_LOG_LEVEL: debug
-#      HTTP_PROXY: http://proxy.example.com
-#      HTTPS_PROXY: http://proxy.example.com
+       # for livedoor-weather
+#      WEATHER_CITY: 270000
+#      WEATHER_CRON_ROOMS: "#HOGE"
+#      WEATHER_CRON_SCHEDULE: '0 0 17 * * 1-5'
+       # for train
+#      TRAIN_AREA: 26
+#      TRAIN_CRON_ROOMS: "#HOGE"
+#      TRAIN_CRON_SCHEDULE: '0 0 17 * * 1-5'
     volumes:
       - ./scripts:/home/bot/scripts
     restart: always
