@@ -2,7 +2,7 @@
 #   電車の運行情報
 #
 # Commands:
-#   hubot 電車 - 電車の運行情報(京都)を教えてくれます
+#   hubot 電車 - 電車の運行情報を教えてくれます
 
 cron = require('cron').CronJob
 cheerio = require 'cheerio-httpcli'
@@ -26,33 +26,56 @@ train_check = (callback) ->
   baseUrl = 'http://transit.loco.yahoo.co.jp/traininfo/gc/' + train_gc + '/'
 
   cheerio.fetch baseUrl, (err, $, res) ->
-    if $('.elmTblLstLine.trouble').find('a').length == 0
+    send = false
+    if $('.elmTblLstLine.trouble').find('a').length != 0
+      $('.elmTblLstLine.trouble a').each ->
+        url = $(this).attr('href')
+        fetch_result = cheerio.fetchSync url
+        check = (err, $, res) ->
+          title = "◎ #{$('h1').text()} #{$('.subText').text()}"
+          result = ""
+          $('.trouble').each ->
+            trouble = $(this).text().trim()
+            result += "- " + trouble + "\r\n"
+          if callback("#{title}\r\n#{result}", true)
+            send = true
+        check(fetch_result.error, fetch_result.$, fetch_result.response)
+    if not send
       callback("事故や遅延情報はありません", false)
-      return
-    $('.elmTblLstLine.trouble a').each ->
-      url = $(this).attr('href')
-      cheerio.fetch url, (err, $, res) ->
-        title = "◎ #{$('h1').text()} #{$('.subText').text()}"
-        result = ""
-        $('.trouble').each ->
-          trouble = $(this).text().trim()
-          result += "- " + trouble + "\r\n"
-        callback("#{title}\r\n#{result}", true)
+
+check_route = (comment) ->
+  if /新幹線/.test(comment)
+    return false
+  return true
 
 cron_task = (robot) ->
     train_check((comment, delayed) -> 
+      if not check_route(comment)
+        return false
       for name in rooms.split(",")
         if delayed
           robot.send {room: name}, comment
         else if prev_delayed
           robot.send {room: name}, comment
         prev_delayed = delayed
+      return true
     )
+    
+respond_task = (msg) ->
+  train_check((comment, delayed) ->
+    if not check_route(comment)
+      return false
+    msg.send comment
+    return true
+  )
 
 module.exports = (robot) ->
 
   robot.respond /電車/i, (msg) ->
-    train_check((comment, delayed) -> msg.send comment)
+    respond_task(msg)
+
+  robot.respond /train/i, (msg) ->
+    respond_task(msg)
 
   new cron train_cron_schedule, () ->
     cron_task(robot)
