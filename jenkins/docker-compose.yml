@@ -1,0 +1,13 @@
+version: '2'
+services:
+
+  jenkins:
+    image: jenkins:latest
+    restart: always
+#    environment:
+#      - JENKINS_OPTS=--prefix=/jenkins
+#    volumes:
+#      - ./jenkins_home:/var/jenkins_home
+    ports:
+      - 8080:8080
+
